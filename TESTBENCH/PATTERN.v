@@ -135,6 +135,7 @@ global_buffer #(
 
 
 
+integer dummy_var_for_iverilog;
 
 initial begin
 
@@ -155,7 +156,7 @@ initial begin
     in_fd = $fopen("./TESTBENCH/input.txt", "r");
 
     //* PATNUM
-    $fscanf(in_fd, "%d", PATNUM);
+    dummy_var_for_iverilog = $fscanf(in_fd, "%d", PATNUM);
 
     for(patcount = 0; patcount < PATNUM; patcount = patcount + 1) begin
 
@@ -216,9 +217,9 @@ end endtask
 
 
 task read_KMN; begin
-    $fscanf(in_fd, "%h", K_golden);
-    $fscanf(in_fd, "%h", M_golden);
-    $fscanf(in_fd, "%h", N_golden);
+    dummy_var_for_iverilog = $fscanf(in_fd, "%h", K_golden);
+    dummy_var_for_iverilog = $fscanf(in_fd, "%h", M_golden);
+    dummy_var_for_iverilog = $fscanf(in_fd, "%h", N_golden);
 end endtask
 
 
@@ -227,7 +228,7 @@ task read_A_Matrix; begin
     nrow = (M_golden[1:0] !== 2'b00) ?  K_golden * ((M_golden>>2) + 1) : K_golden * (M_golden>>2);
     
     for(i=0;i<nrow;i=i+1) begin
-        $fscanf(in_fd, "%h %h %h %h", rbuf[3], rbuf[2], rbuf[1], rbuf[0]);
+        dummy_var_for_iverilog = $fscanf(in_fd, "%h %h %h %h", rbuf[3], rbuf[2], rbuf[1], rbuf[0]);
         gbuff_A.gbuff[i] = {rbuf[3], rbuf[2], rbuf[1], rbuf[0]};
         // $display("A[%d] = %8h", i, gbuff_A.gbuff[i]);
     end
@@ -240,7 +241,7 @@ task read_B_Matrix; begin
     nrow = (N_golden[1:0] !== 2'b00) ? K_golden * ((N_golden >> 2) + 1) : K_golden * (N_golden >> 2);
 
     for(i=0;i<nrow;i=i+1) begin
-        $fscanf(in_fd, "%h %h %h %h", rbuf[3], rbuf[2], rbuf[1], rbuf[0]);
+        dummy_var_for_iverilog = $fscanf(in_fd, "%h %h %h %h", rbuf[3], rbuf[2], rbuf[1], rbuf[0]);
         gbuff_B.gbuff[i] = {rbuf[3], rbuf[2], rbuf[1], rbuf[0]};
         // $display("B[%d] = %8h", i, gbuff_A.gbuff[i]);
     end
@@ -253,7 +254,7 @@ task read_golden; begin
     nrow = (N_golden[1:0] !== 2'b00) ? M_golden * ((N_golden>>2) + 1) : M_golden * (N_golden>>2);
 
     for(i=0;i<nrow;i=i+1) begin
-        $fscanf(in_fd, "%h %h %h %h", goldenbuf[3], goldenbuf[2], goldenbuf[1], goldenbuf[0]);
+        dummy_var_for_iverilog = $fscanf(in_fd, "%h %h %h %h", goldenbuf[3], goldenbuf[2], goldenbuf[1], goldenbuf[0]);
         GOLDEN[i] = {goldenbuf[3], goldenbuf[2], goldenbuf[1], goldenbuf[0]};
         // $display("GOLDEN[%d] = %8h %8h %8h %8h", i, GOLDEN[i][127:96],  GOLDEN[i][95:64],  GOLDEN[i][63:32],  GOLDEN[i][31:0]);
     end

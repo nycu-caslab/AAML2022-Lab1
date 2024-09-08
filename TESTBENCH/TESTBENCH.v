@@ -37,16 +37,11 @@ wire [127:0]    C_data_out;
 
 initial begin
     `ifdef RTL
-        // $fsdbDumpfile("TPU.fsdb");
+        // $fsdbDumpfile("TPU.fsdb"); fsdb if you want
         // $fsdbDumpvars(0,"+mda");
-    // `elsif GATE
-        // $sdf_annotate("TPU_SYN.sdf",U_TPU);
-        // $fsdbDumpfile("TPU.fsdb");
-        // $fsdbDumpvars(0,"+mda");
-    // `elsif POST
-        // $sdf_annotate("CHIP.sdf", U_CHIP);
-        // $fsdbDumpfile("CHIP.fsdb");
-        // $fsdbDumpvars(0,"+mda");
+	
+	$dumpfile("TPU.vcd");
+	$dumpvars(0, TESTBENCH);
     `endif
 end
 
